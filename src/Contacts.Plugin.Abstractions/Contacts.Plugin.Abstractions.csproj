@@ -1,4 +1,21 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageTargetFallback>$(PackageTargetFallback);portable-win+net45+wp8+win81+wpa8</PackageTargetFallback>
+    <AssemblyName>Plugin.Contacts.Abstractions</AssemblyName>
+    <RootNamespace>Plugin.Contacts.Abstractions</RootNamespace>
+	<DefaultLanguage>en-US</DefaultLanguage>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+  </PropertyGroup>
+  
+  
+  
+<!--
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -34,9 +51,12 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Plugin.Contacts.Abstractions.xml</DocumentationFile>
   </PropertyGroup>
-  <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
+  -->
+  <ItemGroup><!-- A reference to the entire .NET Framework is automatically included -->
+  
+    <Folder Include="Properties\" />
   </ItemGroup>
+ <!--
   <ItemGroup>
     <Compile Include="..\Contacts.Plugin.Shared\GlobalAssemblyInfo.cs">
       <Link>GlobalAssemblyInfo.cs</Link>
@@ -54,7 +74,8 @@
     <Compile Include="Relationship.cs" />
     <Compile Include="Website.cs" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  -->
+  <!--<Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />-->
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -39,7 +39,12 @@
     <Compile Include="ContactHelper.cs" />
     <Compile Include="ContactQueryProvider.cs" />
     <Compile Include="ContactsImplementation.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Contacts.Plugin.Abstractions\Contacts.Plugin.Abstractions.csproj">
@@ -48,16 +53,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Core" />
-    <Reference Include="Xamarin.iOS" />
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="..\Contacts.Plugin.Shared\Contacts.Plugin.Shared.projitems" Label="Shared" Condition="Exists('..\Contacts.Plugin.Shared\Contacts.Plugin.Shared.projitems')" />
   <Import Project="..\Contacts.Plugin.Shared\Contacts.Plugin.Shared.projitems" Label="Shared" Condition="Exists('..\Contacts.Plugin.Shared\Contacts.Plugin.Shared.projitems')" />
   <Import Project="..\..\Contatcs.Plugin.Shared\Contatcs.Plugin.Shared.projitems" Label="Shared" Condition="Exists('..\..\Contatcs.Plugin.Shared\Contatcs.Plugin.Shared.projitems')" />
-  <Import Project="..\Contacts.Plugin.Targets.Shared\Contacts.Plugin.Shared.projitems" Label="Shared" Condition="Exists('..\Contacts.Plugin.Targets.Shared\Contacts.Plugin.Shared.projitems')" />
-  <Import Project="..\Contacts.Plugin.Targets.Shared\Contacts.Plugin.Shared.projitems" Label="Shared" Condition="Exists('..\Contacts.Plugin.Targets.Shared\Contacts.Plugin.Shared.projitems')" />
-  <Import Project="..\Contacts.Plugin.Shared\Contatcs.Plugin.Shared.projitems" Label="Shared" Condition="Exists('..\Contacts.Plugin.Shared\Contatcs.Plugin.Shared.projitems')" />
+  <Import Project="..\Contacts.Plugin.Targets.Shared\Contacts.Plugin.Shared.projitems" Label="Shared" />
+  <Import Project="..\Contacts.Plugin.Shared\Contatcs.Plugin.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

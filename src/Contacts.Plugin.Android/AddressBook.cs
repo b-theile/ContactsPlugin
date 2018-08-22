@@ -35,7 +35,7 @@ namespace Plugin.Contacts
         public AddressBook(Context context)
         {
             if (context == null)
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
 
             this.content = context.ContentResolver;
             this.resources = context.Resources;
@@ -65,9 +65,9 @@ namespace Plugin.Contacts
         public Contact Load(string id)
         {
             if (id == null)
-                throw new ArgumentNullException("id");
-            if (id.Trim() == String.Empty)
-                throw new ArgumentException("Invalid ID", "id");
+                throw new ArgumentNullException(nameof(id));
+            if (string.IsNullOrEmpty(id.Trim()))
+                throw new ArgumentException("Invalid ID", nameof(id));
 
             Android.Net.Uri curi; string column;
             if (PreferContactAggregation)

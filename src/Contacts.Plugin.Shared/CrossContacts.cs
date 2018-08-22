@@ -6,7 +6,7 @@ namespace Plugin.Contacts
     /// <summary>
     /// Cross platform Contacts implemenations
     /// </summary>
-    public class CrossContacts
+    public static class CrossContacts
     {
         static Lazy<IContacts> Implementation = new Lazy<IContacts>(() => CreateContacts(), System.Threading.LazyThreadSafetyMode.PublicationOnly);
 
@@ -28,8 +28,8 @@ namespace Plugin.Contacts
 
         static IContacts CreateContacts()
         {
-#if PORTABLE
-        return null;
+#if NETSTANDARD2_0
+            return null;
 #else
             return new ContactsImplementation();
 #endif
