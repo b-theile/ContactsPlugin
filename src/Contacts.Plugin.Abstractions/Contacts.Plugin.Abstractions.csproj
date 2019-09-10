@@ -5,6 +5,9 @@
     <AssemblyName>Plugin.Contacts.Abstractions</AssemblyName>
     <RootNamespace>Plugin.Contacts.Abstractions</RootNamespace>
 	<DefaultLanguage>en-US</DefaultLanguage>
+	<AssemblyVersion>1.0.2.0</AssemblyVersion>
+	<Version>1.0.2</Version>
+	<FileVersion>1.0.2.0</FileVersion>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -8,7 +8,7 @@ namespace Plugin.Contacts
     /// </summary>
     public static class CrossContacts
     {
-        static Lazy<IContacts> Implementation = new Lazy<IContacts>(() => CreateContacts(), System.Threading.LazyThreadSafetyMode.PublicationOnly);
+        private static readonly Lazy<IContacts> _implementation = new Lazy<IContacts>(() => CreateContacts(), System.Threading.LazyThreadSafetyMode.PublicationOnly);
 
         /// <summary>
         /// Current settings to use
@@ -17,7 +17,7 @@ namespace Plugin.Contacts
         {
             get
             {
-                var ret = Implementation.Value;
+                var ret = _implementation.Value;
                 if (ret == null)
                 {
                     throw NotImplementedInReferenceAssembly();

@@ -60,12 +60,9 @@ namespace Plugin.Contacts
                 ICursor cursor = null;
                 try
                 {
-                    string[] projections = (translator.Projections != null)
-                                            ? translator.Projections
-                                                .Where(p => p.Columns != null)
+                    string[] projections = translator.Projections?.Where(p => p.Columns != null)
                                                 .SelectMany(t => t.Columns)
-                                                .ToArray()
-                                            : null;
+                                                .ToArray();
 
                     cursor = this.content.Query(translator.Table, projections, translator.QueryString,
                                                     translator.ClauseParameters, translator.SortString);
@@ -107,8 +104,7 @@ namespace Plugin.Contacts
 
         private Expression ReplaceQueryable(Expression expression, object value)
         {
-            MethodCallExpression mc = expression as MethodCallExpression;
-            if (mc != null)
+            if (expression is MethodCallExpression mc)
             {
                 Expression[] args = mc.Arguments.ToArray();
                 Expression narg = ReplaceQueryable(mc.Arguments[0], value);
@@ -121,8 +117,7 @@ namespace Plugin.Contacts
                     return mc;
             }
 
-            ConstantExpression c = expression as ConstantExpression;
-            if (c != null && c.Type.GetInterfaces().Contains(typeof(IQueryable)))
+            if (expression is ConstantExpression c && c.Type.GetInterfaces().Contains(typeof(IQueryable)))
                 return Expression.Constant(value);
 
             return expression;

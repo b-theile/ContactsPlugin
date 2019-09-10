@@ -43,7 +43,7 @@ namespace Plugin.Contacts
         {
             public SubtreeEvaluator(HashSet<Expression> candidate)
             {
-                this.candidate = candidate;
+                this._candidate = candidate;
             }
 
             public override Expression Visit(Expression expression)
@@ -51,13 +51,15 @@ namespace Plugin.Contacts
                 if (expression == null)
                     return null;
 
-                if (this.candidate.Contains(expression))
+                if (this.Candidate.Contains(expression))
                     return EvaluateCandidate(expression);
 
                 return base.Visit(expression);
             }
 
-            private readonly HashSet<Expression> candidate;
+            private readonly HashSet<Expression> _candidate;
+
+            public HashSet<Expression> Candidate => _candidate;
 
             private Expression EvaluateCandidate(Expression expression)
             {

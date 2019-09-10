@@ -37,22 +37,22 @@ namespace Plugin.Contacts
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            this.content = context.ContentResolver;
-            this.resources = context.Resources;
-            this.contactsProvider = new ContactQueryProvider(context.ContentResolver, context.Resources);
+            this._content = context.ContentResolver;
+            this._resources = context.Resources;
+            this._contactsProvider = new ContactQueryProvider(context.ContentResolver, context.Resources);
         }
 
 
         public bool PreferContactAggregation
         {
-            get { return !this.contactsProvider.UseRawContacts; }
-            set { this.contactsProvider.UseRawContacts = !value; }
+            get => !this._contactsProvider.UseRawContacts;
+            set => this._contactsProvider.UseRawContacts = !value;
         }
 
 
         public IEnumerator<Contact> GetEnumerator()
         {
-            return ContactHelper.GetContacts(!PreferContactAggregation, this.content, this.resources).GetEnumerator();
+            return ContactHelper.GetContacts(!PreferContactAggregation, this._content, this._resources).GetEnumerator();
         }
 
         /// <summary>
@@ -84,13 +84,13 @@ namespace Plugin.Contacts
             ICursor c = null;
             try
             {
-                c = this.content.Query(curi, null, column + " = ?", new[] { id }, null);
-                return (c.MoveToNext() ? ContactHelper.GetContact(!PreferContactAggregation, this.content, this.resources, c) : null);
+                c = this._content.Query(curi, null, column + " = ?", new[] { id }, null);
+                return (c.MoveToNext() ? ContactHelper.GetContact(!PreferContactAggregation, this._content, this._resources, c) : null);
             }
             finally
             {
                 if (c != null)
-                    c.Deactivate();
+                    c.Close(); // .Deactivate();
             }
         }
 
@@ -135,28 +135,16 @@ namespace Plugin.Contacts
         //    this.content.Delete (ContactsContract.RawContacts.ContentUri, ContactsContract.RawContactsColumns.ContactId + " = ?", new[] { contact.Id });
         //}
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        Type IQueryable.ElementType
-        {
-            get { return typeof(Contact); }
-        }
+        Type IQueryable.ElementType => typeof(Contact);
 
-        Expression IQueryable.Expression
-        {
-            get { return Expression.Constant(this); }
-        }
+        Expression IQueryable.Expression => Expression.Constant(this);
 
-        IQueryProvider IQueryable.Provider
-        {
-            get { return this.contactsProvider; }
-        }
+        IQueryProvider IQueryable.Provider => this._contactsProvider;
 
-        private readonly ContactQueryProvider contactsProvider;
-        private readonly ContentResolver content;
-        private readonly Resources resources;
+        private readonly ContactQueryProvider _contactsProvider;
+        private readonly ContentResolver _content;
+        private readonly Resources _resources;
     }
 }

@@ -26,19 +26,26 @@ using Plugin.Contacts.Abstractions;
 
 namespace Plugin.Contacts
 {
+    /// <summary>
+    /// Addressbook
+    /// </summary>
     [Preserve(AllMembers = true)]
-    public class AddressBook
-      : IQueryable<Contact> //IQueryable<Contact>
+    public class AddressBook : IQueryable<Contact>
     {
+        /// <summary>
+        /// Addressbook will be provided
+        /// </summary>
         public AddressBook()
         {
-            this.provider = new ContactQueryProvider(this.addressBook);
+            this._provider = new ContactQueryProvider(this._addressBook);
         }
 
+        /// <summary>
+        /// Resquest permission for contacts usage
+        /// </summary>
+        /// <returns>RequestAccess</returns>
         public Task<bool> RequestPermission()
         {
-
-
             var info = NSBundle.MainBundle.InfoDictionary;
 
             if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
@@ -46,7 +53,6 @@ namespace Plugin.Contacts
                 if (!info.ContainsKey(new NSString("NSContactsUsageDescription")))
                     throw new UnauthorizedAccessException("On iOS 10 and higher you must set NSContactsUsageDescription in your Info.plist file to enable Authorization Requests for Photo Library access!");
             }
-
 
             var tcs = new TaskCompletionSource<bool>();
             if (UIDevice.CurrentDevice.CheckSystemVersion(6, 0))
@@ -56,22 +62,22 @@ namespace Plugin.Contacts
                     tcs.SetResult(false);
                 else
                 {
-                    if (this.addressBook == null)
+                    if (this._addressBook == null)
                     {
-                        this.addressBook = new ABAddressBook();
-                        this.provider = new ContactQueryProvider(this.addressBook);
+                        this._addressBook = new ABAddressBook();
+                        this._provider = new ContactQueryProvider(this._addressBook);
                     }
 
                     if (status == ABAuthorizationStatus.NotDetermined)
                     {
-                        this.addressBook.RequestAccess((s, e) =>
+                        this._addressBook.RequestAccess((s, e) =>
                         {
                             tcs.SetResult(s);
                             if (!s)
                             {
-                                this.addressBook.Dispose();
-                                this.addressBook = null;
-                                this.provider = null;
+                                this._addressBook.Dispose();
+                                this._addressBook = null;
+                                this._provider = null;
                             }
                         });
                     }
@@ -85,33 +91,40 @@ namespace Plugin.Contacts
             return tcs.Task;
         }
 
+        /// <summary>
+        /// Get enumerator of all people in contacts
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<Contact> GetEnumerator()
         {
             CheckStatus();
-
-            return this.addressBook.GetPeople().Select(ContactHelper.GetContact).GetEnumerator();
+            return this._addressBook.GetPeople().Select(ContactHelper.GetContact).GetEnumerator();
         }
 
+        /// <summary>
+        /// Load contact by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Contact Load(string id)
         {
-            if (String.IsNullOrWhiteSpace(id))
-                throw new ArgumentNullException("id");
+            if (string.IsNullOrWhiteSpace(id))
+                throw new ArgumentNullException(nameof(id));
 
             CheckStatus();
 
-            int rowId;
-            if (!Int32.TryParse(id, out rowId))
-                throw new ArgumentException("Not a valid contact ID", "id");
+            if (!int.TryParse(id, out int rowId))
+                throw new ArgumentException("Not a valid contact ID", nameof(id));
 
-            ABPerson person = this.addressBook.GetPerson(rowId);
+            ABPerson person = this._addressBook.GetPerson(rowId);
             if (person == null)
                 return null;
 
             return ContactHelper.GetContact(person);
         }
 
-        private ABAddressBook addressBook;
-        private IQueryProvider provider;
+        private ABAddressBook _addressBook;
+        private IQueryProvider _provider;
 
         private void CheckStatus()
         {
@@ -131,47 +144,20 @@ namespace Plugin.Contacts
                     throw new System.Security.SecurityException("AddressBook has not been granted permission");
             }
 
-            if (this.addressBook == null)
+            if (this._addressBook == null)
             {
-                this.addressBook = new ABAddressBook();
-                this.provider = new ContactQueryProvider(this.addressBook);
+                this._addressBook = new ABAddressBook();
+                this._provider = new ContactQueryProvider(this._addressBook);
             }
         }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
 
-        //		Type IQueryable.ElementType
-        //		{
-        //			get { return typeof(Contact); }
-        //		}
-        //		
-        //		Expression IQueryable.Expression
-        //		{
-        //			get { return Expression.Constant (this); }
-        //		}
-        //		
-        //		IQueryProvider IQueryable.Provider
-        //		{
-        //			get { return this.provider; }
-        //		}
+        Type IQueryable.ElementType => typeof(Contact);
 
-        Type IQueryable.ElementType
-        {
-            get { return typeof(Contact); }
-        }
+        Expression IQueryable.Expression => Expression.Constant(this);
 
-        Expression IQueryable.Expression
-        {
-            get { return Expression.Constant(this); }
-        }
-
-        IQueryProvider IQueryable.Provider
-        {
-            get { return this.provider; }
-        }
+        IQueryProvider IQueryable.Provider => this._provider;
 
     }
 }

@@ -11,52 +11,50 @@ namespace Plugin.Contacts
     [Preserve(AllMembers = true)]
     public class ContactsImplementation : IContacts
     {
-        private AddressBook addressBook;
-        private AddressBook AddressBook
-        {
-            get { return addressBook ?? (addressBook = new AddressBook()); }
-        }
+        private AddressBook _addressBook;
+        private AddressBook AddressBook => _addressBook ?? (_addressBook = new AddressBook());
 
-        public Task<bool> RequestPermission()
-        {
-            return AddressBook.RequestPermission();
-        }
+        /// <summary>
+        /// Request Permission
+        /// </summary>
+        /// <returns></returns>
+        public Task<bool> RequestPermission() => AddressBook.RequestPermission();
 
-        public IQueryable<Contact> Contacts
-        {
-            get { return (IQueryable<Contact>)AddressBook; }
-        }
+        /// <summary>
+        /// Contacts
+        /// </summary>
+        public IQueryable<Contact> Contacts => (IQueryable<Contact>)AddressBook;
 
-        public Contact LoadContact(string id)
-        {
-            return AddressBook.Load(id);
-        }
+        /// <summary>
+        /// Load Contact
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Contact LoadContact(string id) => AddressBook.Load(id);
 
-        public bool LoadSupported
-        {
-            get { return true; }
-        }
+        /// <summary>
+        /// Load Supported
+        /// </summary>
+        public bool LoadSupported => true;
 
-        public bool PreferContactAggregation
-        {
-            get;
-            set;
-        }
+        /// <summary>
+        /// Prefer Contact Aggregation
+        /// </summary>
+        public bool PreferContactAggregation { get; set; }
 
-        public bool AggregateContactsSupported
-        {
-            get { return true; }
-        }
+        /// <summary>
+        /// Aggregate Contacts Supported
+        /// </summary>
+        public bool AggregateContactsSupported => true;
 
-        public bool SingleContactsSupported
-        {
-            get { return true; }
-        }
+        /// <summary>
+        /// is Single Contacts Supported
+        /// </summary>
+        public bool SingleContactsSupported => true;
 
-        public bool IsReadOnly
-        {
-            get { return true; }
-        }
-
+        /// <summary>
+        /// Is Read Only
+        /// </summary>
+        public bool IsReadOnly => true;
     }
 }
