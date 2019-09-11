@@ -2,41 +2,53 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Collections;
 using System.Linq.Expressions;
 
 namespace Plugin.Contacts
 {
+    /// <summary>
+    /// Contacts AddressBook
+    /// </summary>
 	public sealed class AddressBook : IQueryable<Contact>
 	{
+        /// <summary>
+        /// Initialize Addressbook
+        /// </summary>
 		public AddressBook()
 		{
-			provider = new ContactQueryProvider();
+			_provider = new ContactQueryProvider();
 		}
 
-		public Contact Load(string id)
-		{
-			throw new NotSupportedException();
-		}
+        /// <summary>
+        /// Load Contacts by id
+        /// </summary>
+        /// <param name="id">Id</param>
+        /// <returns></returns>
+        public Contact Load(string id) => throw new NotSupportedException();
 
-		public Type ElementType => typeof(Contact);
+        /// <summary>
+        /// Element type
+        /// </summary>
+        public Type ElementType => typeof(Contact);
 
+        /// <summary>
+        /// Expression
+        /// </summary>
 		public Expression Expression => Expression.Constant(this);
 
-		public IQueryProvider Provider => provider;
+        private readonly ContactQueryProvider _provider;
+        /// <summary>
+        /// Provider
+        /// </summary>
+		public IQueryProvider Provider => _provider;
 
-		public IEnumerator<Contact> GetEnumerator()
-		{
-			return provider.GetContacts().GetEnumerator();
-		}
+        /// <summary>
+        /// Contacts as Enumerator
+        /// </summary>
+        /// <returns></returns>
+		public IEnumerator<Contact> GetEnumerator() => _provider.GetContacts().GetEnumerator();
 
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
-		}
-
-		private readonly ContactQueryProvider provider;
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();        
 	}
 }

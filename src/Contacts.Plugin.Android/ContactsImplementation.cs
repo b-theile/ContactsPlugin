@@ -1,5 +1,3 @@
-using Android.Database;
-using Android.Provider;
 using Plugin.Contacts.Abstractions;
 using Plugin.Permissions;
 using System;
@@ -15,6 +13,10 @@ namespace Plugin.Contacts
     [Android.Runtime.Preserve(AllMembers = true)]
     public class ContactsImplementation : IContacts
     {
+        /// <summary>
+        /// Request Permission
+        /// </summary>
+        /// <returns></returns>
         public async Task<bool> RequestPermission()
         {
             var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permissions.Abstractions.Permission.Contacts).ConfigureAwait(false);
@@ -34,57 +36,48 @@ namespace Plugin.Contacts
             return true;
         }
 
-        private AddressBook addressBook;
-        public IQueryable<Contact> Contacts
-        {
-            get
-            {
-                return (IQueryable<Contact>)AddressBook;
-            }
-        }
-        private AddressBook AddressBook
-        {
-            get
-            {
-                return addressBook ?? (addressBook = new AddressBook(Android.App.Application.Context));
-            }
-        }
+        private AddressBook _addressBook;
+        /// <summary>
+        /// Contacts
+        /// </summary>
+        public IQueryable<Contact> Contacts => (IQueryable<Contact>)AddressBook;
 
-        public Abstractions.Contact LoadContact(string id)
-        {
-            return AddressBook.Load(id);
-        }
+        private AddressBook AddressBook => _addressBook ?? (_addressBook = new AddressBook(Android.App.Application.Context));
 
-        public bool LoadSupported
-        {
-            get { return true; }
-        }
+        /// <summary>
+        /// Load contacts by id
+        /// </summary>
+        /// <param name="id">Id</param>
+        /// <returns></returns>
+        public Contact LoadContact(string id) => AddressBook.Load(id);
 
+        /// <summary>
+        /// Load Supported
+        /// </summary>
+        public bool LoadSupported => true;
+
+        /// <summary>
+        /// Prefer ContactAggregation
+        /// </summary>
         public bool PreferContactAggregation
         {
-            get
-            {
-                return AddressBook.PreferContactAggregation;
-            }
-            set
-            {
-                AddressBook.PreferContactAggregation = value;
-            }
+            get => AddressBook.PreferContactAggregation;
+            set => AddressBook.PreferContactAggregation = value;
         }
 
-        public bool AggregateContactsSupported
-        {
-            get { return true; }
-        }
+        /// <summary>
+        /// Aggregate Contacts Supported
+        /// </summary>
+        public bool AggregateContactsSupported => true;
 
-        public bool SingleContactsSupported
-        {
-            get { return true; }
-        }
+        /// <summary>
+        /// Single Contacts Supported
+        /// </summary>
+        public bool SingleContactsSupported => true;
 
-        public bool IsReadOnly
-        {
-            get { return true; }
-        }
+        /// <summary>
+        /// Is ReadOnly
+        /// </summary>
+        public bool IsReadOnly => true;
     }
 }

@@ -38,31 +38,44 @@ namespace Plugin.Contacts
 			return true;
 		}
 
-		private AddressBook AddressBook
-		{
-			get { return addressBook ?? (addressBook = new AddressBook()); }
-		}
+        private AddressBook _addressBook;
+        private AddressBook AddressBook => _addressBook ?? (_addressBook = new AddressBook());
 
-		public IQueryable<Contact> Contacts => AddressBook;
+        /// <summary>
+        /// Contacts
+        /// </summary>
+        public IQueryable<Contact> Contacts => AddressBook;
 
-		public Contact LoadContact(string id)
-		{
-			return AddressBook.Load(id);
-		}
+        /// <summary>
+        /// Load Contact by id
+        /// </summary>
+        /// <param name="id">Id</param>
+        /// <returns>Contact</returns>
+        public Contact LoadContact(string id) => AddressBook.Load(id);
 
-		public bool LoadSupported => false;
+        /// <summary>
+        /// Load Supported
+        /// </summary>
+        public bool LoadSupported => false;
 
-		public bool PreferContactAggregation
-		{
-			get; set;
-		}
+        /// <summary>
+        /// Prefer Contact Aggregation
+        /// </summary>
+        public bool PreferContactAggregation { get; set; }
 
+        /// <summary>
+        /// Aggregate Contacts Supported
+        /// </summary>
 		public bool AggregateContactsSupported => true;
 
+        /// <summary>
+        /// Single Contacts Supported
+        /// </summary>
 		public bool SingleContactsSupported => false;
 
-		public bool IsReadOnly => true;
-
-		private AddressBook addressBook;
+        /// <summary>
+        /// Is ReadOnly
+        /// </summary>
+		public bool IsReadOnly => true;		
 	}
 }

@@ -19,7 +19,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 using Android.Content;
 using Android.Content.Res;
 using Android.Database;
@@ -28,10 +27,17 @@ using Plugin.Contacts.Abstractions;
 
 namespace Plugin.Contacts
 {
+    /// <summary>
+    /// Contact Addressbook
+    /// </summary>
     [Android.Runtime.Preserve(AllMembers=true)]
     public sealed class AddressBook
       : IQueryable<Contact>
     {
+        /// <summary>
+        /// Initialize Addressbook
+        /// </summary>
+        /// <param name="context">Application context</param>
         public AddressBook(Context context)
         {
             if (context == null)
@@ -42,14 +48,19 @@ namespace Plugin.Contacts
             this._contactsProvider = new ContactQueryProvider(context.ContentResolver, context.Resources);
         }
 
-
+        /// <summary>
+        /// Prefer ContactAggregation
+        /// </summary>
         public bool PreferContactAggregation
         {
             get => !this._contactsProvider.UseRawContacts;
             set => this._contactsProvider.UseRawContacts = !value;
         }
 
-
+        /// <summary>
+        /// Contacts as enumerator
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<Contact> GetEnumerator()
         {
             return ContactHelper.GetContacts(!PreferContactAggregation, this._content, this._resources).GetEnumerator();
