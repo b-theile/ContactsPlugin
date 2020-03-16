@@ -29,8 +29,8 @@ namespace Plugin.Contacts
     {
         public ContentQueryTranslator(IQueryProvider provider, ITableFinder tableFinder)
         {
-            this.provider = provider;
-            this.tableFinder = tableFinder;
+            this._provider = provider;
+            this._tableFinder = tableFinder;
             Skip = -1;
             Take = -1;
         }
@@ -47,73 +47,45 @@ namespace Plugin.Contacts
             private set;
         }
 
-        public bool IsCount
-        {
-            get;
-            private set;
-        }
+        public bool IsCount { get; private set; }
 
-        public Type ReturnType
-        {
-            get;
-            private set;
-        }
+        public Type ReturnType { get; private set; }
 
-        public IEnumerable<ContentResolverColumnMapping> Projections
-        {
-            get { return this.projections; }
-        }
+        public IEnumerable<ContentResolverColumnMapping> Projections => this._projections;
 
-        public string QueryString
-        {
-            get { return (this.queryBuilder.Length > 0) ? this.queryBuilder.ToString() : null; }
-        }
+        public string QueryString => (this._queryBuilder.Length > 0) ? this._queryBuilder.ToString() : null;
 
-        public string[] ClauseParameters
-        {
-            get { return (this.arguments.Count > 0) ? this.arguments.ToArray() : null; }
-        }
+        public string[] ClauseParameters => (this._arguments.Count > 0) ? this._arguments.ToArray() : null;
 
-        public string SortString
-        {
-            get { return (this.sortBuilder != null) ? this.sortBuilder.ToString() : null; }
-        }
+        public string SortString => (this._sortBuilder != null) ? this._sortBuilder.ToString() : null;
 
-        public int Skip
-        {
-            get;
-            private set;
-        }
+        public int Skip { get; private set; }
 
-        public int Take
-        {
-            get;
-            private set;
-        }
+        public int Take { get; private set; }
 
         public Expression Translate(Expression expression)
         {
             Expression expr = Visit(expression);
 
             if (Table == null)
-                Table = this.tableFinder.DefaultTable;
+                Table = this._tableFinder.DefaultTable;
 
             return expr;
         }
 
-        private readonly IQueryProvider provider;
-        private readonly ITableFinder tableFinder;
-        private bool fallback = false;
-        private List<ContentResolverColumnMapping> projections;
-        private StringBuilder sortBuilder;
-        private readonly List<string> arguments = new List<string>();
-        private readonly StringBuilder queryBuilder = new StringBuilder();
+        private readonly IQueryProvider _provider;
+        private readonly ITableFinder _tableFinder;
+        private bool _fallback = false;
+        private List<ContentResolverColumnMapping> _projections;
+        private StringBuilder _sortBuilder;
+        private readonly List<string> _arguments = new List<string>();
+        private readonly StringBuilder _queryBuilder = new StringBuilder();
 
         protected override Expression VisitMethodCall(MethodCallExpression methodCall)
         {
             if (methodCall.Arguments.Count == 0 || !(methodCall.Arguments[0] is ConstantExpression || methodCall.Arguments[0] is MethodCallExpression))
             {
-                this.fallback = true;
+                this._fallback = true;
                 return methodCall;
             }
 
@@ -122,11 +94,11 @@ namespace Plugin.Contacts
             methodCall = expression as MethodCallExpression;
             if (methodCall == null)
             {
-                this.fallback = true;
+                this._fallback = true;
                 return expression;
             }
 
-            if (!this.fallback)
+            if (!this._fallback)
             {
                 if (methodCall.Method.Name == "Where")
                     expression = VisitWhere(methodCall);
@@ -158,7 +130,7 @@ namespace Plugin.Contacts
             if (methodCall.Arguments.Count > 1)
             {
                 VisitWhere(methodCall);
-                if (this.fallback)
+                if (this._fallback)
                     return methodCall;
             }
 
@@ -171,7 +143,7 @@ namespace Plugin.Contacts
             if (methodCall.Arguments.Count > 1)
             {
                 VisitWhere(methodCall);
-                if (this.fallback)
+                if (this._fallback)
                     return methodCall;
             }
 
@@ -184,7 +156,7 @@ namespace Plugin.Contacts
             if (methodCall.Arguments.Count > 1)
             {
                 VisitWhere(methodCall);
-                if (this.fallback)
+                if (this._fallback)
                     return methodCall;
             }
 
@@ -213,7 +185,7 @@ namespace Plugin.Contacts
             if (methodCall.Arguments.Count > 1)
             {
                 VisitWhere(methodCall);
-                if (this.fallback)
+                if (this._fallback)
                     return methodCall;
             }
 
@@ -231,26 +203,13 @@ namespace Plugin.Contacts
                     this.table = new TableFindResult(existingTable, null);
             }
 
-            public Android.Net.Uri Table
-            {
-                get { return this.table.Table; }
-            }
+            public Android.Net.Uri Table => this.table.Table;
 
-            public string QueryString
-            {
-                get { return this.builder.ToString(); }
-            }
+            public string QueryString => this.builder.ToString();
 
-            public List<string> Arguments
-            {
-                get { return this.arguments; }
-            }
+            public List<string> Arguments => this.arguments;
 
-            public bool Fallback
-            {
-                get;
-                private set;
-            }
+            public bool Fallback { get; private set; }
 
             public Expression Evaluate(Expression expression)
             {
@@ -414,23 +373,23 @@ namespace Plugin.Contacts
         {
             Expression expression = ExpressionEvaluator.Evaluate(methodCall);
 
-            var eval = new WhereEvaluator(this.tableFinder, Table);
+            var eval = new WhereEvaluator(this._tableFinder, Table);
             expression = eval.Evaluate(expression);
 
             if (eval.Fallback || eval.Table == null || (Table != null && eval.Table != Table))
             {
-                this.fallback = true;
+                this._fallback = true;
                 return methodCall;
             }
 
             if (Table == null)
                 Table = eval.Table;
 
-            this.arguments.AddRange(eval.Arguments);
-            if (this.queryBuilder.Length > 0)
-                this.queryBuilder.Append(" AND ");
+            this._arguments.AddRange(eval.Arguments);
+            if (this._queryBuilder.Length > 0)
+                this._queryBuilder.Append(" AND ");
 
-            this.queryBuilder.Append(eval.QueryString);
+            this._queryBuilder.Append(eval.QueryString);
 
             return methodCall.Arguments[0];
         }
@@ -452,21 +411,21 @@ namespace Plugin.Contacts
             if (!TryGetTable(me))
                 return methodCall;
 
-            ContentResolverColumnMapping column = this.tableFinder.GetColumn(me.Member);
+            ContentResolverColumnMapping column = this._tableFinder.GetColumn(me.Member);
             if (column == null || column.Columns == null)
                 return methodCall;
 
-            (this.projections ?? (this.projections = new List<ContentResolverColumnMapping>())).Add(column);
+            (this._projections ?? (this._projections = new List<ContentResolverColumnMapping>())).Add(column);
             if (column.ReturnType.IsValueType || column.ReturnType == typeof(string))
                 ReturnType = column.ReturnType;
 
-            this.fallback = true;
+            this._fallback = true;
 
             Type argType = GetExpressionArgumentType(methodCall.Arguments[0]);
             if (ReturnType == null || (argType != null && ReturnType.IsAssignableFrom(argType)))
                 return methodCall.Arguments[0];
 
-            return Expression.Constant(Activator.CreateInstance(typeof(Query<>).MakeGenericType(ReturnType), this.provider));
+            return Expression.Constant(Activator.CreateInstance(typeof(Query<>).MakeGenericType(ReturnType), this._provider));
         }
 
         //		private Expression VisitSelect (MethodCallExpression methodCall)
@@ -503,26 +462,26 @@ namespace Plugin.Contacts
 
         private Expression VisitSelectMany(MethodCallExpression methodCall)
         {
-            List<MemberExpression> mes = MemberExpressionFinder.Find(methodCall, this.tableFinder);
+            List<MemberExpression> mes = MemberExpressionFinder.Find(methodCall, this._tableFinder);
             if (mes.Count > 1)
             {
-                this.fallback = true;
+                this._fallback = true;
                 return methodCall;
             }
 
             if (!TryGetTable(mes))
                 return methodCall;
 
-            ContentResolverColumnMapping column = this.tableFinder.GetColumn(mes[0].Member);
+            ContentResolverColumnMapping column = this._tableFinder.GetColumn(mes[0].Member);
             if (column == null || column.ReturnType.GetGenericTypeDefinition() != typeof(IEnumerable<>))
             {
-                this.fallback = true;
+                this._fallback = true;
                 return methodCall;
             }
 
             ReturnType = column.ReturnType.GetGenericArguments()[0];
 
-            return Expression.Constant(Activator.CreateInstance(typeof(Query<>).MakeGenericType(ReturnType), this.provider));
+            return Expression.Constant(Activator.CreateInstance(typeof(Query<>).MakeGenericType(ReturnType), this._provider));
             //return methodCall.Arguments[0];
         }
 
@@ -532,10 +491,10 @@ namespace Plugin.Contacts
             if (!TryGetTable(me))
                 return methodCall;
 
-            ContentResolverColumnMapping column = this.tableFinder.GetColumn(me.Member);
+            ContentResolverColumnMapping column = this._tableFinder.GetColumn(me.Member);
             if (column != null && column.Columns != null)
             {
-                StringBuilder builder = this.sortBuilder ?? (this.sortBuilder = new StringBuilder());
+                StringBuilder builder = this._sortBuilder ?? (this._sortBuilder = new StringBuilder());
                 if (builder.Length > 0)
                     builder.Append(", ");
 
@@ -557,7 +516,7 @@ namespace Plugin.Contacts
         {
             if (memberExpressions.Count == 0)
             {
-                this.fallback = true;
+                this._fallback = true;
                 return false;
             }
 
@@ -567,10 +526,10 @@ namespace Plugin.Contacts
 
             foreach (MemberExpression me in memberExpressions)
             {
-                TableFindResult result = this.tableFinder.Find(me);
+                TableFindResult result = this._tableFinder.Find(me);
                 if (result.Table == null)
                 {
-                    this.fallback = true;
+                    this._fallback = true;
                     return false;
                 }
 
@@ -581,14 +540,14 @@ namespace Plugin.Contacts
                 }
                 else if (existingTable != result.Table)
                 {
-                    this.fallback = true;
+                    this._fallback = true;
                     return false;
                 }
             }
 
             if (presult == null)
             {
-                this.fallback = true;
+                this._fallback = true;
                 return false;
             }
 
@@ -596,12 +555,12 @@ namespace Plugin.Contacts
 
             if (presult.MimeType != null)
             {
-                if (this.queryBuilder.Length > 0)
-                    this.queryBuilder.Append(" AND ");
+                if (this._queryBuilder.Length > 0)
+                    this._queryBuilder.Append(" AND ");
 
-                this.queryBuilder.Append(String.Format("({0} = ?)", ContactsContract.DataColumns.Mimetype));
+                this._queryBuilder.Append(String.Format("({0} = ?)", ContactsContract.DataColumns.Mimetype));
             }
-            this.arguments.Add(presult.MimeType);
+            this._arguments.Add(presult.MimeType);
 
             return true;
         }
@@ -610,26 +569,26 @@ namespace Plugin.Contacts
         {
             if (me == null)
             {
-                this.fallback = true;
+                this._fallback = true;
                 return false;
             }
 
-            TableFindResult result = this.tableFinder.Find(me);
+            TableFindResult result = this._tableFinder.Find(me);
             if (result.MimeType != null)
             {
-                if (queryBuilder.Length > 0)
-                    this.queryBuilder.Append(" AND ");
+                if (_queryBuilder.Length > 0)
+                    this._queryBuilder.Append(" AND ");
 
-                this.queryBuilder.Append(String.Format("({0} = ?)", ContactsContract.DataColumns.Mimetype));
+                this._queryBuilder.Append(String.Format("({0} = ?)", ContactsContract.DataColumns.Mimetype));
             }
 
-            this.arguments.Add(result.MimeType);
+            this._arguments.Add(result.MimeType);
 
             if (Table == null)
                 Table = result.Table;
             else if (Table != result.Table)
             {
-                this.fallback = true;
+                this._fallback = true;
                 return false;
             }
 
@@ -638,27 +597,23 @@ namespace Plugin.Contacts
 
         private MemberExpression FindMemberExpression(Expression expression)
         {
-            UnaryExpression ue = expression as UnaryExpression;
-            if (ue != null)
+            if (expression is UnaryExpression ue)
                 expression = ue.Operand;
 
-            LambdaExpression le = expression as LambdaExpression;
-            if (le != null)
+            if (expression is LambdaExpression le)
                 expression = le.Body;
 
-            MemberExpression me = expression as MemberExpression;
-            if (me != null && this.tableFinder.IsSupportedType(me.Member.DeclaringType))
+            if (expression is MemberExpression me && this._tableFinder.IsSupportedType(me.Member.DeclaringType))
                 return me;
 
-            BinaryExpression be = expression as BinaryExpression;
-            if (be != null)
+            if (expression is BinaryExpression be)
             {
                 me = be.Left as MemberExpression;
-                if (me != null && this.tableFinder.IsSupportedType(me.Member.DeclaringType))
+                if (me != null && this._tableFinder.IsSupportedType(me.Member.DeclaringType))
                     return me;
 
                 me = be.Right as MemberExpression;
-                if (me != null && this.tableFinder.IsSupportedType(me.Member.DeclaringType))
+                if (me != null && this._tableFinder.IsSupportedType(me.Member.DeclaringType))
                     return me;
             }
 

@@ -1,19 +1,16 @@
 ﻿using Plugin.Contacts.Abstractions;
 using Plugin.Permissions;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 
 namespace Plugin.Contacts
 {
-	/// <summary>
-	/// Implementation for Contacts
-	/// </summary>
-	public class ContactsImplementation : IContacts
+    /// <summary>
+    /// Implementation for Contacts
+    /// </summary>
+    public class ContactsImplementation : IContacts
 	{
 		/// <summary>
 		/// Request permissions for Contacts

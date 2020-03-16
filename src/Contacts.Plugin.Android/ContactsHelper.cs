@@ -163,8 +163,7 @@ namespace Plugin.Contacts
 
                 for (; x < ids.Length; x++)
                 {
-                    Contact tContact = null;
-                    if (map.TryGetValue(ids[x], out tContact))
+                    if (map.TryGetValue(ids[x], out Contact tContact))
                         yield return tContact;
                 }
             }
@@ -302,8 +301,10 @@ namespace Plugin.Contacts
 
         internal static InstantMessagingAccount GetImAccount(ICursor c, Resources resources)
         {
-            InstantMessagingAccount ima = new InstantMessagingAccount();
-            ima.Account = c.GetString(CommonColumns.Data);
+            InstantMessagingAccount ima = new InstantMessagingAccount
+            {
+                Account = c.GetString(CommonColumns.Data)
+            };
 
             //IMTypeDataKind imKind = (IMTypeDataKind) c.GetInt (c.GetColumnIndex (CommonColumns.Type));
             //ima.Type = imKind.ToInstantMessagingType();
@@ -320,11 +321,13 @@ namespace Plugin.Contacts
 
         internal static Address GetAddress(ICursor c, Resources resources)
         {
-            Address a = new Address();
-            a.Country = c.GetString(StructuredPostal.Country);
-            a.Region = c.GetString(StructuredPostal.Region);
-            a.City = c.GetString(StructuredPostal.City);
-            a.PostalCode = c.GetString(StructuredPostal.Postcode);
+            Address a = new Address
+            {
+                Country = c.GetString(StructuredPostal.Country),
+                Region = c.GetString(StructuredPostal.Region),
+                City = c.GetString(StructuredPostal.City),
+                PostalCode = c.GetString(StructuredPostal.Postcode)
+            };
 
             AddressDataKind kind = (AddressDataKind)c.GetInt(c.GetColumnIndex(CommonColumns.Type));
             a.Type = kind.ToAddressType();
@@ -348,8 +351,10 @@ namespace Plugin.Contacts
 
         internal static Phone GetPhone(ICursor c, Resources resources)
         {
-            Phone p = new Phone();
-            p.Number = GetString(c, ContactsContract.CommonDataKinds.Phone.Number);
+            Phone p = new Phone
+            {
+                Number = GetString(c, ContactsContract.CommonDataKinds.Phone.Number)
+            };
 
             PhoneDataKind pkind = (PhoneDataKind)c.GetInt(c.GetColumnIndex(CommonColumns.Type));
             p.Type = pkind.ToPhoneType();
@@ -362,8 +367,10 @@ namespace Plugin.Contacts
 
         internal static Email GetEmail(ICursor c, Resources resources)
         {
-            Email e = new Email();
-            e.Address = c.GetString(ContactsContract.DataColumns.Data1);
+            Email e = new Email
+            {
+                Address = c.GetString(ContactsContract.DataColumns.Data1)
+            };
 
             EmailDataKind ekind = (EmailDataKind)c.GetInt(c.GetColumnIndex(CommonColumns.Type));
             e.Type = ekind.ToEmailType();
@@ -376,9 +383,11 @@ namespace Plugin.Contacts
 
         internal static Organization GetOrganization(ICursor c, Resources resources)
         {
-            Organization o = new Organization();
-            o.Name = c.GetString(OrganizationData.Company);
-            o.ContactTitle = c.GetString(OrganizationData.Title);
+            Organization o = new Organization
+            {
+                Name = c.GetString(OrganizationData.Company),
+                ContactTitle = c.GetString(OrganizationData.Title)
+            };
 
             OrganizationDataKind d = (OrganizationDataKind)c.GetInt(c.GetColumnIndex(CommonColumns.Type));
             o.Type = d.ToOrganizationType();
@@ -391,8 +400,10 @@ namespace Plugin.Contacts
 
         internal static Website GetWebsite(ICursor c, Resources resources)
         {
-            Website w = new Website();
-            w.Address = c.GetString(WebsiteData.Url);
+            Website w = new Website
+            {
+                Address = c.GetString(WebsiteData.Url)
+            };
 
             //WebsiteDataKind kind = (WebsiteDataKind)c.GetInt (c.GetColumnIndex (CommonColumns.Type));
             //w.Type = kind.ToWebsiteType();
@@ -424,28 +435,22 @@ namespace Plugin.Contacts
 
         internal static AddressType ToAddressType(this AddressDataKind addressKind)
         {
-            switch (addressKind)
+            return addressKind switch
             {
-                case AddressDataKind.Home:
-                    return AddressType.Home;
-                case AddressDataKind.Work:
-                    return AddressType.Work;
-                default:
-                    return AddressType.Other;
-            }
+                AddressDataKind.Home => AddressType.Home,
+                AddressDataKind.Work => AddressType.Work,
+                _ => AddressType.Other,
+            };
         }
 
         internal static EmailType ToEmailType(this EmailDataKind emailKind)
         {
-            switch (emailKind)
+            return emailKind switch
             {
-                case EmailDataKind.Home:
-                    return EmailType.Home;
-                case EmailDataKind.Work:
-                    return EmailType.Work;
-                default:
-                    return EmailType.Other;
-            }
+                EmailDataKind.Home => EmailType.Home,
+                EmailDataKind.Work => EmailType.Work,
+                _ => EmailType.Other,
+            };
         }
 
         internal static PhoneType ToPhoneType(this PhoneDataKind phoneKind)
@@ -472,33 +477,24 @@ namespace Plugin.Contacts
 
         internal static OrganizationType ToOrganizationType(this OrganizationDataKind organizationKind)
         {
-            switch (organizationKind)
+            return organizationKind switch
             {
-                case OrganizationDataKind.Work:
-                    return OrganizationType.Work;
-
-                default:
-                    return OrganizationType.Other;
-            }
+                OrganizationDataKind.Work => OrganizationType.Work,
+                _ => OrganizationType.Other,
+            };
         }
 
         internal static InstantMessagingService ToInstantMessagingService(this IMProtocolDataKind protocolKind)
         {
-            switch (protocolKind)
+            return protocolKind switch
             {
-                case IMProtocolDataKind.Aim:
-                    return InstantMessagingService.Aim;
-                case IMProtocolDataKind.Msn:
-                    return InstantMessagingService.Msn;
-                case IMProtocolDataKind.Yahoo:
-                    return InstantMessagingService.Yahoo;
-                case IMProtocolDataKind.Jabber:
-                    return InstantMessagingService.Jabber;
-                case IMProtocolDataKind.Icq:
-                    return InstantMessagingService.Icq;
-                default:
-                    return InstantMessagingService.Other;
-            }
+                IMProtocolDataKind.Aim => InstantMessagingService.Aim,
+                IMProtocolDataKind.Msn => InstantMessagingService.Msn,
+                IMProtocolDataKind.Yahoo => InstantMessagingService.Yahoo,
+                IMProtocolDataKind.Jabber => InstantMessagingService.Jabber,
+                IMProtocolDataKind.Icq => InstantMessagingService.Icq,
+                _ => InstantMessagingService.Other,
+            };
         }
 
         //internal static InstantMessagingType ToInstantMessagingType (this IMTypeDataKind imKind)

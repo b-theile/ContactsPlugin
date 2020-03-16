@@ -6,7 +6,7 @@
     <RootNamespace>Plugin.Contacts</RootNamespace>
 	<DefaultLanguage>en-US</DefaultLanguage>
 	<AssemblyVersion>1.0.2.1</AssemblyVersion>
-	<Version>1.0.2</Version>
+	<Version>1.0.3</Version>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

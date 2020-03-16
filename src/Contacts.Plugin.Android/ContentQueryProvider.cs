@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Android.Content;
@@ -36,10 +35,7 @@ namespace Plugin.Contacts
             this.tableFinder = tableFinder;
         }
 
-        public ITableFinder TableFinder
-        {
-            get { return this.tableFinder; }
-        }
+        public ITableFinder TableFinder => this.tableFinder;
 
         protected readonly ContentResolver content;
         protected readonly Resources resources;

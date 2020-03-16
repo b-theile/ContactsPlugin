@@ -34,7 +34,7 @@ namespace Plugin.Contacts
           : this(translator, content, resources, selector)
         {
             if (defaultSort == null)
-                throw new ArgumentNullException("defaultSort");
+                throw new ArgumentNullException(nameof(defaultSort));
 
             this.defaultSort = defaultSort;
         }
@@ -42,13 +42,13 @@ namespace Plugin.Contacts
         public GenericQueryReader(ContentQueryTranslator translator, ContentResolver content, Resources resources, Func<ICursor, Resources, T> selector)
         {
             if (translator == null)
-                throw new ArgumentNullException("translator");
+                throw new ArgumentNullException(nameof(translator));
             if (content == null)
-                throw new ArgumentNullException("content");
+                throw new ArgumentNullException(nameof(content));
             if (resources == null)
-                throw new ArgumentNullException("resources");
+                throw new ArgumentNullException(nameof(resources));
             if (selector == null)
-                throw new ArgumentNullException("selector");
+                throw new ArgumentNullException(nameof(selector));
 
             this.translator = translator;
             this.content = content;

@@ -1,9 +1,8 @@
 using Plugin.Contacts.Abstractions;
-using Plugin.Permissions;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 
 namespace Plugin.Contacts
 {
@@ -19,20 +18,18 @@ namespace Plugin.Contacts
         /// <returns></returns>
         public async Task<bool> RequestPermission()
         {
-            var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permissions.Abstractions.Permission.Contacts).ConfigureAwait(false);
-            if (status != Permissions.Abstractions.PermissionStatus.Granted)
+            var status = await Permissions.CheckStatusAsync<Permissions.ContactsRead>();
+            if(status != PermissionStatus.Granted)
             {
                 Console.WriteLine("Currently does not have Contacts permissions, requesting permissions");
 
-                var request = await CrossPermissions.Current.RequestPermissionsAsync(Permissions.Abstractions.Permission.Contacts);
-
-                if (request[Permissions.Abstractions.Permission.Contacts] != Permissions.Abstractions.PermissionStatus.Granted)
+                var request = await Permissions.RequestAsync<Permissions.ContactsRead>();
+                if(request != PermissionStatus.Granted)
                 {
                     Console.WriteLine("Contacts permission denied, can not get positions async.");
                     return false;
                 }
             }
-
             return true;
         }
 

@@ -24,7 +24,7 @@ namespace Plugin.Contacts
         public ContentResolverColumnMapping(string column, Type returnType)
         {
             if (returnType == null)
-                throw new ArgumentNullException("returnType");
+                throw new ArgumentNullException(nameof(returnType));
 
             if (column != null)
                 Columns = new[] { column };
@@ -36,9 +36,9 @@ namespace Plugin.Contacts
           : this(column, returnType)
         {
             if (toQueryable == null)
-                throw new ArgumentNullException("toQueryable");
+                throw new ArgumentNullException(nameof(toQueryable));
             if (fromQueryable == null)
-                throw new ArgumentNullException("fromQueryable");
+                throw new ArgumentNullException(nameof(fromQueryable));
 
             ValueToQueryable = toQueryable;
             QueryableToValue = fromQueryable;
@@ -47,7 +47,7 @@ namespace Plugin.Contacts
         public ContentResolverColumnMapping(string[] columns, Type returnType)
         {
             if (returnType == null)
-                throw new ArgumentNullException("returnType");
+                throw new ArgumentNullException(nameof(returnType));
 
             Columns = columns;
             ReturnType = returnType;
@@ -57,9 +57,9 @@ namespace Plugin.Contacts
           : this(columns, returnType)
         {
             if (toQueryable == null)
-                throw new ArgumentNullException("toQueryable");
+                throw new ArgumentNullException(nameof(toQueryable));
             if (fromQueryable == null)
-                throw new ArgumentNullException("fromQueryable");
+                throw new ArgumentNullException(nameof(fromQueryable));
 
             ValueToQueryable = toQueryable;
             QueryableToValue = fromQueryable;
