@@ -1,5 +1,5 @@
 ﻿using Plugin.Contacts.Abstractions;
-using Plugin.Permissions;
+using Xamarin.Essentials;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,21 +18,23 @@ namespace Plugin.Contacts
 		/// <returns></returns>
 		public async Task<bool> RequestPermission()
 		{
-			var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permissions.Abstractions.Permission.Contacts).ConfigureAwait(false);
-			if (status != Permissions.Abstractions.PermissionStatus.Granted)
-			{
-				Debug.WriteLine("Currently does not have Contacts permissions, requesting permissions");
 
-				var request = await CrossPermissions.Current.RequestPermissionsAsync(Permissions.Abstractions.Permission.Contacts);
+#warning TODO
+            //var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permissions.Abstractions.Permission.Contacts).ConfigureAwait(false);
+            //if (status != Permissions.Abstractions.PermissionStatus.Granted)
+            //{
+            //	Debug.WriteLine("Currently does not have Contacts permissions, requesting permissions");
 
-				if (request[Permissions.Abstractions.Permission.Contacts] != Permissions.Abstractions.PermissionStatus.Granted)
-				{
-                    Debug.WriteLine("Contacts permission denied, can not get positions async.");
-					return false;
-				}
-			}
+            //	var request = await CrossPermissions.Current.RequestPermissionsAsync(Permissions.Abstractions.Permission.Contacts);
 
-			return true;
+            //	if (request[Permissions.Abstractions.Permission.Contacts] != Permissions.Abstractions.PermissionStatus.Granted)
+            //	{
+            //                 Debug.WriteLine("Contacts permission denied, can not get positions async.");
+            //		return false;
+            //	}
+            //}
+
+            return true;
 		}
 
         private AddressBook _addressBook;
