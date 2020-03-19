@@ -608,7 +608,19 @@ namespace Plugin.Contacts
 		{
 			
 			// aapt resource value: 0x7F080000
-			public static int status_bar_notification_info_overflow = 2131230720;
+			public static int copy_toast_msg = 2131230720;
+			
+			// aapt resource value: 0x7F080001
+			public static int fallback_menu_item_copy_link = 2131230721;
+			
+			// aapt resource value: 0x7F080002
+			public static int fallback_menu_item_open_in_browser = 2131230722;
+			
+			// aapt resource value: 0x7F080003
+			public static int fallback_menu_item_share_link = 2131230723;
+			
+			// aapt resource value: 0x7F080004
+			public static int status_bar_notification_info_overflow = 2131230724;
 			
 			static String()
 			{
@@ -863,7 +875,10 @@ namespace Plugin.Contacts
 		{
 			
 			// aapt resource value: 0x7F0B0000
-			public static int xamarin_essentials_fileprovider_file_paths = 2131427328;
+			public static int image_share_filepaths = 2131427328;
+			
+			// aapt resource value: 0x7F0B0001
+			public static int xamarin_essentials_fileprovider_file_paths = 2131427329;
 			
 			static Xml()
 			{
