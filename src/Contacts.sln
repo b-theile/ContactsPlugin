@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2003
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contacts.Plugin", "Contacts.Plugin\Contacts.Plugin.csproj", "{A6FCEF44-D2BA-42C7-B3CB-13667BCD7B54}"
 EndProject
@@ -37,7 +37,8 @@ Global
 		Contacts.Plugin.Targets.Shared\Contacts.Plugin.Shared.projitems*{40972f57-9d5d-46aa-a3aa-a8ed0cd88bb5}*SharedItemsImports = 4
 		Contacts.Plugin.Shared\Contatcs.Plugin.Shared.projitems*{56a56f17-7de1-4ca1-9617-bf32e971ac84}*SharedItemsImports = 4
 		Contacts.Plugin.Targets.Shared\Contacts.Plugin.Shared.projitems*{56a56f17-7de1-4ca1-9617-bf32e971ac84}*SharedItemsImports = 4
-		Contacts.Plugin.Shared\Contatcs.Plugin.Shared.projitems*{a6fcef44-d2ba-42c7-b3cb-13667bcd7b54}*SharedItemsImports = 4
+		Contacts.Plugin.Shared\Contatcs.Plugin.Shared.projitems*{a6fcef44-d2ba-42c7-b3cb-13667bcd7b54}*SharedItemsImports = 5
+		Contacts.Plugin.Targets.Shared\Contacts.Plugin.Shared.projitems*{a6fcef44-d2ba-42c7-b3cb-13667bcd7b54}*SharedItemsImports = 5
 		Contacts.Plugin.Shared\Contatcs.Plugin.Shared.projitems*{dd23087a-2d1f-4d58-9d79-cfb9e9d5b6b2}*SharedItemsImports = 13
 		Contacts.Plugin.Targets.Shared\Contacts.Plugin.Shared.projitems*{f56d67d9-7cc0-49b0-bbb1-3878bf1cd49f}*SharedItemsImports = 13
 	EndGlobalSection
