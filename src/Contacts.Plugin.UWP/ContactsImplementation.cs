@@ -19,21 +19,18 @@ namespace Plugin.Contacts
 		public async Task<bool> RequestPermission()
 		{
 
-#warning TODO
-            //var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permissions.Abstractions.Permission.Contacts).ConfigureAwait(false);
-            //if (status != Permissions.Abstractions.PermissionStatus.Granted)
-            //{
-            //	Debug.WriteLine("Currently does not have Contacts permissions, requesting permissions");
+            var status = await Permissions.CheckStatusAsync<Permissions.ContactsRead>();
+            if (status != PermissionStatus.Granted)
+            {
+                Debug.WriteLine("Currently does not have Contacts permissions, requesting permissions");
 
-            //	var request = await CrossPermissions.Current.RequestPermissionsAsync(Permissions.Abstractions.Permission.Contacts);
-
-            //	if (request[Permissions.Abstractions.Permission.Contacts] != Permissions.Abstractions.PermissionStatus.Granted)
-            //	{
-            //                 Debug.WriteLine("Contacts permission denied, can not get positions async.");
-            //		return false;
-            //	}
-            //}
-
+                var request = await Permissions.RequestAsync<Permissions.ContactsRead>();
+                if (request != PermissionStatus.Granted)
+                {
+                    Debug.WriteLine("Contacts permission denied, can not get positions async.");
+                    return false;
+                }
+            }
             return true;
 		}
 

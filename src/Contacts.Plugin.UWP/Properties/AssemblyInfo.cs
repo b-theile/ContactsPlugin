@@ -8,3 +8,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Plugin.Contacts")]
 [assembly: AssemblyProduct("Plugin.Contacts")]
 [assembly: ComVisible(false)]
+[assembly: AssemblyVersion("1.0.3.0")]
+[assembly: AssemblyFileVersion("1.0.3.0")]
