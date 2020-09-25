@@ -103,28 +103,28 @@ namespace Plugin.Contacts
 		{
 			
 			// aapt resource value: 0x7F020000
-			public static int browser_actions_bg_grey = 2130837504;
+			public static int androidx_core_ripple_material_light = 2130837504;
 			
 			// aapt resource value: 0x7F020001
-			public static int browser_actions_divider_color = 2130837505;
+			public static int androidx_core_secondary_text_default_material_light = 2130837505;
 			
 			// aapt resource value: 0x7F020002
-			public static int browser_actions_text_color = 2130837506;
+			public static int browser_actions_bg_grey = 2130837506;
 			
 			// aapt resource value: 0x7F020003
-			public static int browser_actions_title_color = 2130837507;
+			public static int browser_actions_divider_color = 2130837507;
 			
 			// aapt resource value: 0x7F020004
-			public static int notification_action_color_filter = 2130837508;
+			public static int browser_actions_text_color = 2130837508;
 			
 			// aapt resource value: 0x7F020005
-			public static int notification_icon_bg_color = 2130837509;
+			public static int browser_actions_title_color = 2130837509;
 			
 			// aapt resource value: 0x7F020006
-			public static int ripple_material_light = 2130837510;
+			public static int notification_action_color_filter = 2130837510;
 			
 			// aapt resource value: 0x7F020007
-			public static int secondary_text_default_material_light = 2130837511;
+			public static int notification_icon_bg_color = 2130837511;
 			
 			static Color()
 			{

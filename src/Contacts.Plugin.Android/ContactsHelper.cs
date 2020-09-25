@@ -428,28 +428,31 @@ namespace Plugin.Contacts
         //    }
         //}
 
-        internal static string GetString(this ICursor c, string colName)
-        {
-            return c.GetString(c.GetColumnIndex(colName));
-        }
+        internal static string GetString(this ICursor c, string colName) => c.GetString(c.GetColumnIndex(colName));
 
         internal static AddressType ToAddressType(this AddressDataKind addressKind)
         {
-            return addressKind switch
+            switch(addressKind)
             {
-                AddressDataKind.Home => AddressType.Home,
-                AddressDataKind.Work => AddressType.Work,
-                _ => AddressType.Other,
+                case AddressDataKind.Home:
+                    return AddressType.Home;
+                case AddressDataKind.Work:
+                    return AddressType.Work;
+                default:
+                    return AddressType.Other;
             };
         }
 
         internal static EmailType ToEmailType(this EmailDataKind emailKind)
         {
-            return emailKind switch
+            switch(emailKind)
             {
-                EmailDataKind.Home => EmailType.Home,
-                EmailDataKind.Work => EmailType.Work,
-                _ => EmailType.Other,
+                case EmailDataKind.Home:
+                    return EmailType.Home;
+                case EmailDataKind.Work:
+                    return EmailType.Work;
+                default:
+                    return EmailType.Other;
             };
         }
 
@@ -477,23 +480,31 @@ namespace Plugin.Contacts
 
         internal static OrganizationType ToOrganizationType(this OrganizationDataKind organizationKind)
         {
-            return organizationKind switch
+            switch (organizationKind)
             {
-                OrganizationDataKind.Work => OrganizationType.Work,
-                _ => OrganizationType.Other,
+                case OrganizationDataKind.Work:
+                    return OrganizationType.Work;
+                default:
+                    return OrganizationType.Other;
             };
         }
 
         internal static InstantMessagingService ToInstantMessagingService(this IMProtocolDataKind protocolKind)
         {
-            return protocolKind switch
+            switch (protocolKind)
             {
-                IMProtocolDataKind.Aim => InstantMessagingService.Aim,
-                IMProtocolDataKind.Msn => InstantMessagingService.Msn,
-                IMProtocolDataKind.Yahoo => InstantMessagingService.Yahoo,
-                IMProtocolDataKind.Jabber => InstantMessagingService.Jabber,
-                IMProtocolDataKind.Icq => InstantMessagingService.Icq,
-                _ => InstantMessagingService.Other,
+                case IMProtocolDataKind.Aim:
+                    return InstantMessagingService.Aim;
+                case IMProtocolDataKind.Msn:
+                    return InstantMessagingService.Msn;
+                case IMProtocolDataKind.Yahoo:
+                    return InstantMessagingService.Yahoo;
+                case IMProtocolDataKind.Jabber:
+                    return InstantMessagingService.Jabber;
+                case IMProtocolDataKind.Icq:
+                    return InstantMessagingService.Icq;
+                default:
+                    return InstantMessagingService.Other;
             };
         }
 

@@ -4,10 +4,11 @@
     <PackageTargetFallback>$(PackageTargetFallback);portable-win+net45+wp8+win81+wpa8</PackageTargetFallback>
     <AssemblyName>Plugin.Contacts.Abstractions</AssemblyName>
     <RootNamespace>Plugin.Contacts.Abstractions</RootNamespace>
-	  <DefaultLanguage>en-US</DefaultLanguage>
-	  <AssemblyVersion>1.0.3.0</AssemblyVersion>
-	  <Version>1.0.3</Version>
-	  <FileVersion>1.0.3.0</FileVersion>
+	<DefaultLanguage>en-US</DefaultLanguage>
+	<AssemblyVersion>1.0.3.0</AssemblyVersion>
+	<Version>1.0.3</Version>
+	<FileVersion>1.0.3.0</FileVersion>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
