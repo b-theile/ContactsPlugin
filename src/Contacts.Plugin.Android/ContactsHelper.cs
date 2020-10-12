@@ -32,7 +32,6 @@ using OrganizationData = Android.Provider.ContactsContract.CommonDataKinds.Organ
 using WebsiteData = Android.Provider.ContactsContract.CommonDataKinds.Website;
 using Relation = Android.Provider.ContactsContract.CommonDataKinds.Relation;
 using Plugin.Contacts.Abstractions;
-using System.Threading.Tasks;
 
 namespace Plugin.Contacts
 {
@@ -432,27 +431,21 @@ namespace Plugin.Contacts
 
         internal static AddressType ToAddressType(this AddressDataKind addressKind)
         {
-            switch(addressKind)
+            return addressKind switch
             {
-                case AddressDataKind.Home:
-                    return AddressType.Home;
-                case AddressDataKind.Work:
-                    return AddressType.Work;
-                default:
-                    return AddressType.Other;
+                AddressDataKind.Home => AddressType.Home,
+                AddressDataKind.Work => AddressType.Work,
+                _ => AddressType.Other,
             };
         }
 
         internal static EmailType ToEmailType(this EmailDataKind emailKind)
         {
-            switch(emailKind)
+            return emailKind switch
             {
-                case EmailDataKind.Home:
-                    return EmailType.Home;
-                case EmailDataKind.Work:
-                    return EmailType.Work;
-                default:
-                    return EmailType.Other;
+                EmailDataKind.Home => EmailType.Home,
+                EmailDataKind.Work => EmailType.Work,
+                _ => EmailType.Other,
             };
         }
 
@@ -480,31 +473,23 @@ namespace Plugin.Contacts
 
         internal static OrganizationType ToOrganizationType(this OrganizationDataKind organizationKind)
         {
-            switch (organizationKind)
+            return organizationKind switch
             {
-                case OrganizationDataKind.Work:
-                    return OrganizationType.Work;
-                default:
-                    return OrganizationType.Other;
+                OrganizationDataKind.Work => OrganizationType.Work,
+                _ => OrganizationType.Other,
             };
         }
 
         internal static InstantMessagingService ToInstantMessagingService(this IMProtocolDataKind protocolKind)
         {
-            switch (protocolKind)
+            return protocolKind switch
             {
-                case IMProtocolDataKind.Aim:
-                    return InstantMessagingService.Aim;
-                case IMProtocolDataKind.Msn:
-                    return InstantMessagingService.Msn;
-                case IMProtocolDataKind.Yahoo:
-                    return InstantMessagingService.Yahoo;
-                case IMProtocolDataKind.Jabber:
-                    return InstantMessagingService.Jabber;
-                case IMProtocolDataKind.Icq:
-                    return InstantMessagingService.Icq;
-                default:
-                    return InstantMessagingService.Other;
+                IMProtocolDataKind.Aim => InstantMessagingService.Aim,
+                IMProtocolDataKind.Msn => InstantMessagingService.Msn,
+                IMProtocolDataKind.Yahoo => InstantMessagingService.Yahoo,
+                IMProtocolDataKind.Jabber => InstantMessagingService.Jabber,
+                IMProtocolDataKind.Icq => InstantMessagingService.Icq,
+                _ => InstantMessagingService.Other,
             };
         }
 

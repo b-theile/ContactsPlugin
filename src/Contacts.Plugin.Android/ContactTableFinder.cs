@@ -93,135 +93,99 @@ namespace Plugin.Contacts
 
         private ContentResolverColumnMapping GetNoteColumn(MemberInfo member)
         {
-            switch (member.Name)
+            return member.Name switch
             {
-                case "Contents":
-                    return new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.CommonColumns.Data, typeof(string));
-            }
-
-            return null;
+                "Contents" => new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.CommonColumns.Data, typeof(string)),
+                _ => null,
+            };
         }
 
         private ContentResolverColumnMapping GetOrganizationColumn(MemberInfo member)
         {
-            switch (member.Name)
+            return member.Name switch
             {
-                case "ContactTitle":
-                    return new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.Organization.Title, typeof(string));
-                case "Name":
-                    return new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.Organization.Company, typeof(string));
-            }
-
-            return null;
+                "ContactTitle" => new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.Organization.Title, typeof(string)),
+                "Name" => new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.Organization.Company, typeof(string)),
+                _ => null,
+            };
         }
 
         private ContentResolverColumnMapping GetWebsiteColumn(MemberInfo member)
         {
-            switch (member.Name)
+            return member.Name switch
             {
-                case "Address":
-                    return new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.Website.Url, typeof(string));
-            }
-
-            return null;
+                "Address" => new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.Website.Url, typeof(string)),
+                _ => null,
+            };
         }
 
         private ContentResolverColumnMapping GetImColumn(MemberInfo member)
         {
-            switch (member.Name)
+            return member.Name switch
             {
-                case "Account":
-                    return new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.CommonColumns.Data, typeof(string));
-            }
-
-            return null;
+                "Account" => new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.CommonColumns.Data, typeof(string)),
+                _ => null,
+            };
         }
 
         private ContentResolverColumnMapping GetRelationshipColumn(MemberInfo member)
         {
-            switch (member.Name)
+            return member.Name switch
             {
-                case "Name":
-                    return new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.Relation.Name, typeof(string));
-            }
-
-            return null;
+                "Name" => new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.Relation.Name, typeof(string)),
+                _ => null,
+            };
         }
 
         private ContentResolverColumnMapping GetAddressColumn(MemberInfo member)
         {
-            switch (member.Name)
+            return member.Name switch
             {
-                case "City":
-                    return new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.StructuredPostal.City, typeof(string));
-                case "Region":
-                    return new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.StructuredPostal.Region, typeof(string));
-                case "Country":
-                    return new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.StructuredPostal.Country, typeof(string));
-                case "PostalCode":
-                    return new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.StructuredPostal.Postcode, typeof(string));
-            }
-
-            return null;
+                "City" => new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.StructuredPostal.City, typeof(string)),
+                "Region" => new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.StructuredPostal.Region, typeof(string)),
+                "Country" => new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.StructuredPostal.Country, typeof(string)),
+                "PostalCode" => new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.StructuredPostal.Postcode, typeof(string)),
+                _ => null,
+            };
         }
 
         private ContentResolverColumnMapping GetPhoneColumn(MemberInfo member)
         {
-            switch (member.Name)
+            return member.Name switch
             {
-                case "Number":
-                    return new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.Phone.Number, typeof(string));
-            }
-
-            return null;
+                "Number" => new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.Phone.Number, typeof(string)),
+                _ => null,
+            };
         }
 
         private ContentResolverColumnMapping GetEmailColumn(MemberInfo member)
         {
-            switch (member.Name)
+            return member.Name switch
             {
-                case "Address":
-                    return new ContentResolverColumnMapping(ContactsContract.DataColumns.Data1, typeof(string));
-            }
-
-            return null;
+                "Address" => new ContentResolverColumnMapping(ContactsContract.DataColumns.Data1, typeof(string)),
+                _ => null,
+            };
         }
 
         private ContentResolverColumnMapping GetContactColumn(MemberInfo member)
         {
-            switch (member.Name)
+            return member.Name switch
             {
-                case "DisplayName":
-                    return new ContentResolverColumnMapping(ContactsContract.ContactsColumns.DisplayName, typeof(string));
-                case "Prefix":
-                    return new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.StructuredName.Prefix, typeof(string));
-                case "FirstName":
-                    return new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.StructuredName.GivenName, typeof(string));
-                case "LastName":
-                    return new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.StructuredName.FamilyName, typeof(string));
-                case "Suffix":
-                    return new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.StructuredName.Suffix, typeof(string));
-
-                case "Phones":
-                    return new ContentResolverColumnMapping((string)null, typeof(IEnumerable<Phone>));
-                case "Emails":
-                    return new ContentResolverColumnMapping((string)null, typeof(IEnumerable<Email>));
-                case "Addresses":
-                    return new ContentResolverColumnMapping((string)null, typeof(IEnumerable<Address>));
-                case "Notes":
-                    return new ContentResolverColumnMapping((string)null, typeof(IEnumerable<Note>));
-                case "Relationships":
-                    return new ContentResolverColumnMapping((string)null, typeof(IEnumerable<Relationship>));
-                case "InstantMessagingAccounts":
-                    return new ContentResolverColumnMapping((string)null, typeof(IEnumerable<InstantMessagingAccount>));
-                case "Websites":
-                    return new ContentResolverColumnMapping((string)null, typeof(IEnumerable<Website>));
-                case "Organizations":
-                    return new ContentResolverColumnMapping((string)null, typeof(IEnumerable<Organization>));
-
-                default:
-                    return null;
-            }
+                "DisplayName" => new ContentResolverColumnMapping(ContactsContract.ContactsColumns.DisplayName, typeof(string)),
+                "Prefix" => new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.StructuredName.Prefix, typeof(string)),
+                "FirstName" => new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.StructuredName.GivenName, typeof(string)),
+                "LastName" => new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.StructuredName.FamilyName, typeof(string)),
+                "Suffix" => new ContentResolverColumnMapping(ContactsContract.CommonDataKinds.StructuredName.Suffix, typeof(string)),
+                "Phones" => new ContentResolverColumnMapping((string)null, typeof(IEnumerable<Phone>)),
+                "Emails" => new ContentResolverColumnMapping((string)null, typeof(IEnumerable<Email>)),
+                "Addresses" => new ContentResolverColumnMapping((string)null, typeof(IEnumerable<Address>)),
+                "Notes" => new ContentResolverColumnMapping((string)null, typeof(IEnumerable<Note>)),
+                "Relationships" => new ContentResolverColumnMapping((string)null, typeof(IEnumerable<Relationship>)),
+                "InstantMessagingAccounts" => new ContentResolverColumnMapping((string)null, typeof(IEnumerable<InstantMessagingAccount>)),
+                "Websites" => new ContentResolverColumnMapping((string)null, typeof(IEnumerable<Website>)),
+                "Organizations" => new ContentResolverColumnMapping((string)null, typeof(IEnumerable<Organization>)),
+                _ => null,
+            };
         }
 
 

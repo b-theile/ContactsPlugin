@@ -57,7 +57,7 @@ namespace Plugin.Contacts
 
         public string[] ClauseParameters => (this._arguments.Count > 0) ? this._arguments.ToArray() : null;
 
-        public string SortString => (this._sortBuilder != null) ? this._sortBuilder.ToString() : null;
+        public string SortString => this._sortBuilder?.ToString();
 
         public int Skip { get; private set; }
 
@@ -374,7 +374,7 @@ namespace Plugin.Contacts
             Expression expression = ExpressionEvaluator.Evaluate(methodCall);
 
             var eval = new WhereEvaluator(this._tableFinder, Table);
-            expression = eval.Evaluate(expression);
+            _ = eval.Evaluate(expression);
 
             if (eval.Fallback || eval.Table == null || (Table != null && eval.Table != Table))
             {
@@ -396,13 +396,11 @@ namespace Plugin.Contacts
 
         private Type GetExpressionArgumentType(Expression expression)
         {
-            switch (expression.NodeType)
+            return expression.NodeType switch
             {
-                case ExpressionType.Constant:
-                    return ((ConstantExpression)expression).Value.GetType();
-            }
-
-            return null;
+                ExpressionType.Constant => ((ConstantExpression)expression).Value.GetType(),
+                _ => null,
+            };
         }
 
         private Expression VisitSelect(MethodCallExpression methodCall)
@@ -415,7 +413,7 @@ namespace Plugin.Contacts
             if (column == null || column.Columns == null)
                 return methodCall;
 
-            (this._projections ?? (this._projections = new List<ContentResolverColumnMapping>())).Add(column);
+            (this._projections ??= new List<ContentResolverColumnMapping>()).Add(column);
             if (column.ReturnType.IsValueType || column.ReturnType == typeof(string))
                 ReturnType = column.ReturnType;
 
@@ -494,7 +492,7 @@ namespace Plugin.Contacts
             ContentResolverColumnMapping column = this._tableFinder.GetColumn(me.Member);
             if (column != null && column.Columns != null)
             {
-                StringBuilder builder = this._sortBuilder ?? (this._sortBuilder = new StringBuilder());
+                StringBuilder builder = this._sortBuilder ??= new StringBuilder();
                 if (builder.Length > 0)
                     builder.Append(", ");
 
